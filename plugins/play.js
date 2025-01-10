@@ -1,47 +1,45 @@
+const config = require('../config')
 const {eypz , commands} = require('../command')
-
-
 
 eypz({
     pattern: "play",
-    desc: "download songs",
-    category: "download",
+    desc: "instagram.",
+    category: "main",
     filename: __filename
 },
 async(conn, mek, m,{from, quoted, body, isCmd, command, args, q, isGroup, sender, senderNumber, botNumber2, botNumber, pushname, isMe, isOwner, groupMetadata, groupName, participants, groupAdmins, isBotAdmins, isAdmins, reply}) => {
-try{
-if(!q) return m.reply("_Enter a song name!_\n_Eg:- play starboy_")
+    try{
 
 
-const dls = '_Searching...!_';
-     const sdl =  await conn.sendMessage(from, { text: dls, quoted : mek });
-
-const fg = require('api-dylux')
 const yts = require('yt-search')
 
 
+
+
+
+if(!q){return m.reply("_Enter a Query for download !_")}
+
+let ing = await conn.sendMessage(from, {text:"_Downloading...!_"}, {quoted : mek });
+
 const search = await yts(q)
-const data = search.videos[0];
-const yturl = data.url
-const st = data.title
-const length = data.timestamp
-
-const msg_dl =  `_Downloading :  ${st} , *${length}*_`
-
-     const dl_msg =  await conn.sendMessage(from, { text: msg_dl , edit: sdl.key });
-        
+const ydata = search.videos[0];
+const yturl = ydata.url
 
 
 
+let he = await fetch (`https://api.siputzx.my.id/api/d/ytmp4?url=${yturl}`)
+
+let adata = await he.json();
+let data = adata.data
+let url = data.dl
+let tit = data.title
+
+const ajsal = (`_Downloadiing : ${tit}_\n_It may take a few moment_`)
+
+await conn.sendMessage(from, { text: ajsal , edit: ing.key });
 
 
-
-let down = await fg.yta(yturl)
-let durl = down.dl_url
-
-
-return await conn.sendMessage(from,{audio: {url:durl},mimetype:"audio/mpeg"},{quoted:mek})
-
+await conn.sendMessage(from,{audio: {url:url},mimetype:"audio/mpeg"},{quoted:mek})
 
 
 }catch(e){
