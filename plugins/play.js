@@ -14,12 +14,9 @@ async(conn, mek, m,{from, quoted, body, isCmd, command, args, q, isGroup, sender
 const yts = require('yt-search')
 
 
-
-
-
 if(!q){return m.reply("_Enter a Query for download !_")}
 
-let ing = await conn.sendMessage(from, {text:"_Downloading...!_"}, {quoted : mek });
+let ing = await conn.sendMessage(from, {text:"_Searching...!_"}, {quoted : mek });
 
 const search = await yts(q)
 const ydata = search.videos[0];
@@ -34,7 +31,7 @@ let data = adata.data
 let url = data.dl
 let tit = data.title
 
-const ajsal = (`_Downloadiing : ${tit}_\n_It may take a few moment_`)
+const ajsal = (`_Downloadiing : ${tit}_\n\n> It may take a few seconds`)
 
 await conn.sendMessage(from, { text: ajsal , edit: ing.key });
 
